@@ -43,7 +43,7 @@ func StageGKEBuildMarker(version, stageLocation, markerPrefix string) error {
 	}
 	pushCmd := fmt.Sprintf("gsutil -h 'Content-Type:text/plain' cp - %s/%s", stageLocation, fName)
 	cmd := exec.RawCommand(pushCmd)
-	cmd.SetStdin(strings.NewReader(version))
+	cmd.SetStdin(strings.NewReader(fmt.Sprintf("v%s", version)))
 	exec.SetOutput(cmd, os.Stdout, os.Stderr)
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("failed to upload the latest version number: %s", err)
